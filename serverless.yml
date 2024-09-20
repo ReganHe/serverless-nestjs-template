@@ -1,0 +1,34 @@
+component: http
+name: http-nestjs-oE51QaDd-x
+inputs:
+  src:
+    dist: ./
+    hook: npm run build
+    exclude:
+      - .env
+    src: ./
+  faas:
+    runtime: Nodejs12.16
+    framework: nestjs
+    name: '${name}'
+    events:
+      - http:
+          parameters:
+            netConfig:
+              enableIntranet: false
+              enableExtranet: true
+            qualifier: $DEFAULT
+            authType: NONE
+    eip: true
+    timeout: 3
+    memorySize: 512
+    tags: []
+    environments: []
+    layers:
+      - name: '${output:${stage}:${app}:nest-example-layer.name}'
+        version: '${output:${stage}:${app}:nest-example-layer.version}'
+  region: ap-shanghai
+  isAutoCiDeploy: false
+org: '1253782478'
+app: nest-example
+stage: dev
